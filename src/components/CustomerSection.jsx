@@ -1,4 +1,8 @@
-const CustomerSection = ({ invoice, setInvoice }) => {
+import React from "react";
+import { useSales } from "../Context/SalesContext";
+
+const CustomerSection = () => {
+  const { invoice, setInvoice } = useSales();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInvoice({ ...invoice, [name]: value });

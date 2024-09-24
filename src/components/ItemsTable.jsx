@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa"; // Import trash icon for deletion
+import { useSales } from "../Context/SalesContext";
 
-const ItemsTable = ({ invoice, setInvoice }) => {
+const ItemsTable = () => {
+  const { invoice, setInvoice } = useSales();
   const [taxOptions] = useState(["GST", "VAT", "Service Tax", "None"]);
 
   const handleItemChange = (index, field, value) => {
@@ -122,6 +124,7 @@ const ItemsTable = ({ invoice, setInvoice }) => {
                     handleItemChange(index, "quantity", e.target.value)
                   }
                   className="p-1 w-full bg-transparent text-center focus:outline-none"
+                  min={0}
                 />
               </td>
               <td className="border text-center">

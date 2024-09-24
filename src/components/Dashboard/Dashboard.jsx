@@ -1,8 +1,10 @@
 import React from "react";
 import { FaFileExcel, FaPrint, FaPlus, FaChartLine } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useSales } from "../../Context/SalesContext";
 
 const SalesInvoice = () => {
+  console.log(useSales());
   const navigate = useNavigate();
 
   return (

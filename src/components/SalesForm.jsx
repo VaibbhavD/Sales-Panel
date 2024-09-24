@@ -4,63 +4,72 @@ import InvoiceDetailsSection from "./InvoiceDetailsSection";
 import ItemsTable from "./ItemsTable";
 import BottomSection from "./BottomSection";
 import ButtonsSection from "./ButtonsSection";
+import { useSales } from "../Context/SalesContext";
 
 const SalesForm = () => {
-  const [invoice, setInvoice] = useState({
-    customer: "",
-    phone: "",
-    billingAddress: "",
-    invoiceNumber: "",
-    invoiceDate: "",
-    stateOfSupply: "",
-    items: [
-      {
-        name: "",
-        quantity: 1,
-        unit: "Bags",
-        price: 0,
-        discountPercent: 0,
-        discountAmount: 0,
-        taxPercent: 0,
-        taxAmount: 0,
-      },
-    ],
-    totalAmount: 0,
-    receivedAmount: 0,
-    paymentType: "Cash",
-    description: "",
-  });
+  const { invoice, setInvoice } = useSales();
 
-  // Load saved data from local storage on component mount
+  // Save invoice to localStorage whenever it updates
+  // useEffect(() => {
+  //   localStorage.setItem("invoice", JSON.stringify(invoice));
+  // }, [invoice]);
+
+  // Update totalAmount when items are modified
   useEffect(() => {
-    const savedInvoices = JSON.parse(localStorage.getItem("invoices")) || [];
-    if (savedInvoices.length > 0) {
-      console.log("Saved invoices loaded:", savedInvoices);
-    }
-  }, []);
+    const newTotalAmount = invoice.items.reduce((total, item) => {
+      const discountAmount =
+        (item.price * item.quantity * item.discountPercent) / 100;
+      const totalBeforeTax = item.price * item.quantity - discountAmount;
+      const taxAmount = calculateTax(totalBeforeTax, item.taxType);
+      return total + (totalBeforeTax + taxAmount);
+    }, 0);
 
-  // Save invoice to local storage
-  const saveInvoice = () => {
-    const savedInvoices = JSON.parse(localStorage.getItem("invoices")) || [];
-    savedInvoices.push(invoice);
-    localStorage.setItem("invoices", JSON.stringify(savedInvoices));
-    console.log("Invoice saved to local storage:", invoice);
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      totalAmount: newTotalAmount.toFixed(2),
+    }));
+  }, [invoice.items]);
+
+  // Update receivedAmount, paymentType, description based on user input
+  const handleInputChange = (field, value) => {
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      [field]: value,
+    }));
+  };
+
+  // Tax calculation helper function
+  const calculateTax = (totalBeforeTax, taxType) => {
+    switch (taxType) {
+      case "GST":
+        return totalBeforeTax * 0.18;
+      case "VAT":
+        return totalBeforeTax * 0.12;
+      case "Service Tax":
+        return totalBeforeTax * 0.15;
+      default:
+        return 0;
+    }
   };
 
   return (
     <div className="p-8 bg-white min-h-screen">
-      {/* Form Sections */}
       <h1 className="text-3xl font-bold text-left text-gray-800 mb-6">Sales</h1>
 
       <div className="flex justify-between mb-2">
-        <CustomerSection invoice={invoice} setInvoice={setInvoice} />
+        <CustomerSection />
         <InvoiceDetailsSection invoice={invoice} setInvoice={setInvoice} />
       </div>
 
-      <ItemsTable invoice={invoice} setInvoice={setInvoice} />
-      <BottomSection invoice={invoice} setInvoice={setInvoice} />
+      <ItemsTable />
 
-      <ButtonsSection saveInvoice={saveInvoice} invoice={invoice} />
+      <BottomSection
+        invoice={invoice}
+        setInvoice={setInvoice}
+        handleInputChange={handleInputChange}
+      />
+
+      <ButtonsSection />
     </div>
   );
 };

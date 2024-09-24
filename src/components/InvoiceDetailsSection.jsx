@@ -1,16 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSales } from "../Context/SalesContext";
 
-const InvoiceDetailsSection = ({ invoice, setInvoice }) => {
+const InvoiceDetailsSection = () => {
+  const { invoice, setInvoice } = useSales();
+
+  const [InvoiceNo, SetInvoiceNo] = useState("");
+
+  // Function to handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInvoice({ ...invoice, [name]: value });
   };
 
+  // Generate the invoice number once when the component mounts
   useEffect(() => {
     const generatedInvoiceNumber = `INV-${Math.floor(
       1000 + Math.random() * 9000
-    )}`; // e.g., INV-1234
-    setInvoice((prev) => ({ ...prev, invoiceNumber: generatedInvoiceNumber }));
+    )}`;
+    SetInvoiceNo(generatedInvoiceNumber);
+
+    // Update invoice state with the generated number
+    setInvoice((prevInvoice) => ({
+      ...prevInvoice,
+      invoiceNumber: generatedInvoiceNumber,
+    }));
   }, [setInvoice]);
 
   return (
@@ -24,8 +37,7 @@ const InvoiceDetailsSection = ({ invoice, setInvoice }) => {
             type="text"
             name="invoiceNumber"
             placeholder="Invoice Number"
-            value={invoice.invoiceNumber}
-            onChange={handleInputChange}
+            value={InvoiceNo}
             className="border p-2 rounded-lg mb-4"
             disabled
           />
@@ -39,7 +51,7 @@ const InvoiceDetailsSection = ({ invoice, setInvoice }) => {
             name="invoiceDate"
             value={invoice.invoiceDate}
             onChange={handleInputChange}
-            className=" border p-2 rounded-lg"
+            className="border p-2 rounded-lg"
           />
         </div>
       </div>
