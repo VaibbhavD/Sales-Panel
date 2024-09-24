@@ -1,9 +1,10 @@
 import React from "react";
 import { useSales } from "../Context/SalesContext";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const ButtonsSection = () => {
-  const { invoice, addSale } = useSales();
+  const { invoice, addSale, setIsModalOpen } = useSales();
   const navigate = useNavigate();
 
   const isFormValid =
@@ -16,7 +17,9 @@ const ButtonsSection = () => {
       {" "}
       {/* Align buttons to the right and add spacing */}
       <button
-        // onClick={() => navigate("/invoice")}
+        onClick={() => (
+          setIsModalOpen(true), toast.success("Invoice Genrated")
+        )}
         disabled={!isFormValid}
         className={`py-2 px-4 rounded-lg ${
           isFormValid ? "bg-green-500 text-white" : "bg-gray-300"
@@ -25,7 +28,9 @@ const ButtonsSection = () => {
         Generate Invoice
       </button>
       <button
-        onClick={() => addSale(invoice)}
+        onClick={() => (
+          addSale(invoice), toast.success("Invoice Saved"), navigate("/")
+        )}
         disabled={!isFormValid}
         className={`py-2 px-4 rounded-lg ${
           isFormValid ? "bg-blue-500 text-white" : "bg-gray-300"

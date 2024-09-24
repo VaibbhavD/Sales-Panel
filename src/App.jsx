@@ -4,7 +4,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import SalesForm from "./components/SalesForm";
 import { useSales } from "./Context/SalesContext";
 import { useEffect } from "react";
-import Invoice from "./components/Invoice/Invoice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { GetSaleData, isModalOpen } = useSales();
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/add-sale" element={<SalesForm />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }

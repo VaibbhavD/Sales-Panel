@@ -2,6 +2,7 @@ import React from "react";
 import { useSales } from "../../Context/SalesContext";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { toast } from "react-toastify";
 
 const Invoice = ({ invoice }) => {
   const { setIsModalOpen } = useSales();
@@ -87,16 +88,14 @@ const Invoice = ({ invoice }) => {
 
     // Save the PDF
     doc.save(`${invoiceNumber}.pdf`);
+    toast.success("Invoice Downloaded");
   };
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded shadow-lg">
       <div className="fixed inset-0 flex items-center justify-center z-50">
         {/* Background overlay */}
-        <div
-          className="fixed inset-0 bg-black opacity-50"
-          onClick={() => setIsModalOpen(false)}
-        ></div>
+        <div className="fixed inset-0 bg-black opacity-50"></div>
 
         {/* Modal container */}
         <div className="bg-white rounded-lg overflow-hidden shadow-lg z-10 w-11/12 md:w-2/3">
