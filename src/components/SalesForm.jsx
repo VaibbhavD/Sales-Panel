@@ -5,14 +5,24 @@ import ItemsTable from "./ItemsTable";
 import BottomSection from "./BottomSection";
 import ButtonsSection from "./ButtonsSection";
 import { useSales } from "../Context/SalesContext";
+import Invoice from "./Invoice/Invoice";
 
 const SalesForm = () => {
-  const { invoice, setInvoice } = useSales();
+  const { invoice, setInvoice, isModalOpen } = useSales();
 
-  // Save invoice to localStorage whenever it updates
-  // useEffect(() => {
-  //   localStorage.setItem("invoice", JSON.stringify(invoice));
-  // }, [invoice]);
+  // Tax calculation helper function
+  const calculateTax = (totalBeforeTax, taxType) => {
+    switch (taxType) {
+      case "GST":
+        return totalBeforeTax * 0.18;
+      case "VAT":
+        return totalBeforeTax * 0.12;
+      case "Service Tax":
+        return totalBeforeTax * 0.15;
+      default:
+        return 0;
+    }
+  };
 
   // Update totalAmount when items are modified
   useEffect(() => {
@@ -38,20 +48,6 @@ const SalesForm = () => {
     }));
   };
 
-  // Tax calculation helper function
-  const calculateTax = (totalBeforeTax, taxType) => {
-    switch (taxType) {
-      case "GST":
-        return totalBeforeTax * 0.18;
-      case "VAT":
-        return totalBeforeTax * 0.12;
-      case "Service Tax":
-        return totalBeforeTax * 0.15;
-      default:
-        return 0;
-    }
-  };
-
   return (
     <div className="p-8 bg-white min-h-screen">
       <h1 className="text-3xl font-bold text-left text-gray-800 mb-6">Sales</h1>
@@ -70,6 +66,7 @@ const SalesForm = () => {
       />
 
       <ButtonsSection />
+      {isModalOpen && <Invoice invoice={invoice} />}
     </div>
   );
 };

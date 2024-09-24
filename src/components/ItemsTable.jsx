@@ -82,7 +82,7 @@ const ItemsTable = () => {
     0
   );
   const totalAmount = invoice.items.reduce(
-    (acc, item) => acc + Number(calculateTotal(item)),
+    (acc, item) => acc + Math.round(Number(calculateTotal(item))),
     0
   );
 
@@ -90,7 +90,7 @@ const ItemsTable = () => {
     <div className="w-full">
       <table className="min-w-full bg-white border-collapse border border-gray-300">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-gray-200">
             <th className=" border w-12">Sr. No</th>
             <th className="py-2 px-4 border w-20">Item</th>
             <th className="py-2 px-4 border w-16">Qty</th>
@@ -218,10 +218,7 @@ const ItemsTable = () => {
       </table>
       {/* Add Item Button */}
       <div className="flex justify-between bg-gray-50 p-2">
-        <button
-          onClick={addItem}
-          className="bg-blue-500 text-white p-2 rounded"
-        >
+        <button onClick={addItem} className=" text-blue-500 p-2 rounded">
           + Add Item
         </button>
         <div className="flex gap-5 justify-center items-center px-10">

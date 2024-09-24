@@ -1,8 +1,10 @@
 import React from "react";
 import { useSales } from "../Context/SalesContext";
+import { useNavigate } from "react-router";
 
 const ButtonsSection = () => {
   const { invoice, addSale } = useSales();
+  const navigate = useNavigate();
 
   const isFormValid =
     invoice.customer && invoice.totalAmount != 0 && invoice.invoiceNumber;
@@ -14,7 +16,7 @@ const ButtonsSection = () => {
       {" "}
       {/* Align buttons to the right and add spacing */}
       <button
-        onClick={() => alert("Invoice generated")}
+        // onClick={() => navigate("/invoice")}
         disabled={!isFormValid}
         className={`py-2 px-4 rounded-lg ${
           isFormValid ? "bg-green-500 text-white" : "bg-gray-300"
