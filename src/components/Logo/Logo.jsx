@@ -1,10 +1,10 @@
 import React from "react";
 import Logos from "../../assets/logo.png";
 
-function Logo() {
+function Logo({ size }) {
   return (
     <div className="flex-shrink-0 bg-white">
-      <img src={Logos} alt="Logo" className="h-14 w-auto" />
+      <img src={Logos} alt="Logo" width={300} />
     </div>
   );
 }

@@ -32,7 +32,7 @@ const Invoice = ({ invoice }) => {
             <h2 className="text-xl font-bold">Invoice</h2>
             <div className="grid grid-cols-2 gap-6 items-center">
               <div>
-                <Logo />
+                <Logo size={24} />
               </div>
               <div className="text-right">
                 <p className="font-semibold text-gray-700">
