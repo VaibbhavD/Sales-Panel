@@ -52,10 +52,10 @@ const PDFGenerator = ({ invoice }) => {
     const tableRows = items.map((item) => [
       item.name,
       item.quantity,
-      `$${item.price}`,
+      `₹${item.price}`,
       item.taxType || "N/A",
       `${item.discountPercent || 0}%`,
-      `$${(item.quantity * item.price).toFixed(2)}`,
+      `₹${(item.quantity * item.price).toFixed(2)}`,
     ]);
 
     doc.autoTable({
@@ -71,8 +71,8 @@ const PDFGenerator = ({ invoice }) => {
 
     // Total amounts
     doc.setFontSize(12);
-    doc.text(`Total Amount: $${totalAmount}`, 20, finalY + 20);
-    doc.text(`Received Amount: $${receivedAmount}`, 20, finalY + 30);
+    doc.text(`Total Amount: ₹${totalAmount}`, 20, finalY + 20);
+    doc.text(`Received Amount: ₹${receivedAmount}`, 20, finalY + 30);
     doc.text(`Payment Type: ${paymentType}`, 20, finalY + 40);
 
     // Add description if it exists

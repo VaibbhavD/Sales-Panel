@@ -30,7 +30,7 @@ const Invoice = ({ invoice }) => {
           {/* Invoice Content */}
           <div className="p-6">
             <h2 className="text-xl font-bold">Invoice</h2>
-            <div className="grid grid-cols-2 gap-6 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
               <div>
                 <Logo size={24} />
               </div>
@@ -54,7 +54,7 @@ const Invoice = ({ invoice }) => {
               </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 overflow-x-auto">
               <table className="min-w-full table-auto">
                 <thead className="border-b-2 border-gray-300 text-gray-800">
                   <tr>
@@ -74,7 +74,7 @@ const Invoice = ({ invoice }) => {
                         {item.quantity}
                       </td>
                       <td className="px-4 py-4 text-right text-gray-700">
-                        ${item.price}
+                        ₹ {item.price}
                       </td>
                       <td className="px-4 py-4 text-right text-gray-700">
                         {item.taxType}
@@ -83,7 +83,7 @@ const Invoice = ({ invoice }) => {
                         {item.discountPercent}%
                       </td>
                       <td className="px-4 py-4 text-right font-bold text-gray-800">
-                        ${item.FinalAmount}
+                        ₹ {item.FinalAmount}
                       </td>
                     </tr>
                   ))}
@@ -93,10 +93,14 @@ const Invoice = ({ invoice }) => {
 
             <div className="mt-8 grid justify-end pr-10">
               <p className="font-medium text-gray-700 mb-1">
-                Total Amount: ${totalAmount !== null ? totalAmount : "N/A"}
+                Total Amount:{" "}
+                <span className="font-bold">
+                  ₹ {totalAmount !== null ? totalAmount : "N/A"}
+                </span>
               </p>
               <p className="font-medium text-gray-700 mb-1">
-                Received Amount: ${receivedAmount}
+                Received Amount:{" "}
+                <span className="font-bold">₹ {receivedAmount}</span>
               </p>
               <p className="font-medium text-gray-700 mb-1">
                 Payment Type: {paymentType}
