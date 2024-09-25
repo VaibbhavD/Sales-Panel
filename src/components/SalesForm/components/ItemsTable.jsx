@@ -53,7 +53,7 @@ const ItemsTable = () => {
       ...prevInvoice,
       totalAmount: newTotalAmount,
     }));
-  }, [invoice.items]);
+  }, [invoice.items, invoice.totalAmount]);
 
   const addItem = () => {
     const newItem = {
