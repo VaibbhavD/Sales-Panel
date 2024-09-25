@@ -48,7 +48,7 @@ const SalesPDF = ({ sales }) => {
 
   return (
     <button
-      className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 flex items-center"
+      className="bg-blue-600 text-white p-2 md:text-sm flec justify-end text-xs  rounded-lg shadow-md hover:bg-blue-700 transition duration-300 flex items-center"
       onClick={generatePDF}
     >
       <FaFilePdf className="mr-2" /> {/* Add PDF icon here */}

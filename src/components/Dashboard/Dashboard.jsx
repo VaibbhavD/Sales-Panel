@@ -76,38 +76,6 @@ const Dashboard = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-700">
             This Month
           </h2>
-          <div className="flex space-x-2 md:space-x-4 mt-4 md:mt-0">
-            <SalesPDF sales={Sales} /> {/* Add the PDF download button */}
-          </div>
-        </div>
-
-        {/* Date Filter Section */}
-        <div className="flex flex-col md:flex-row items-center mt-6 space-y-4 md:space-y-0 md:space-x-4">
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="px-4 py-2 border rounded-lg text-gray-700"
-          />
-          <span className="text-gray-700">to</span>
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="px-4 py-2 border rounded-lg text-gray-700"
-          />
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-            onClick={filterSalesByDate}
-          >
-            Filter
-          </button>
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded-lg"
-            onClick={resetFilter}
-          >
-            Reset
-          </button>
         </div>
 
         {/* Total Summary */}
@@ -127,16 +95,47 @@ const Dashboard = () => {
             <span className="font-bold">₹ {totalPaid.toFixed(2)}</span>
           </div>
         </div>
+
+        {/* Date Filter Section */}
+        <div className="flex flex-col md:flex-row items-center mt-10 space-y-4 md:space-y-0 md:space-x-4 justify-end">
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="px-4 py-2 border rounded-lg text-gray-700"
+          />
+          <span className="text-gray-700">to</span>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="px-4 py-2 border rounded-lg text-gray-700"
+          />
+          <div className="flex gap-4">
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+              onClick={filterSalesByDate}
+            >
+              Filter
+            </button>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded-lg"
+              onClick={resetFilter}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Transactions Table */}
       <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold text-gray-700">
-            Sales Transactions
+            Sales Transactions{" "}
           </h3>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center"
+            className="bg-blue-500 text-white px-4 py-2 text-xs md:text-sm rounded-lg flex items-center"
             onClick={() => navigate("/add-sale")}
           >
             <FaPlus className="mr-2" /> Add Sale
@@ -206,6 +205,9 @@ const Dashboard = () => {
                   </tr>
                 ))}
               </tbody>
+              <div className="flex space-x-2 md:space-x-4 mt-4 md:mt-6">
+                <SalesPDF sales={Sales} /> {/* Add the PDF download button */}
+              </div>
             </table>
           </div>
         ) : (
