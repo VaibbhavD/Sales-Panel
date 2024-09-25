@@ -8,9 +8,9 @@ const Dashboard = () => {
   const { deleteSale, sales, isModalOpen, setIsModalOpen } = useSales();
   const navigate = useNavigate();
   const [Sales, SetSales] = useState([]);
-  const [selectedSale, setSelectedSale] = useState(null); // For controlling modal
-  const [startDate, setStartDate] = useState(""); // For filtering by date
-  const [endDate, setEndDate] = useState(""); // For filtering by date
+  const [selectedSale, setSelectedSale] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("Sales")) || [];
@@ -48,6 +48,14 @@ const Dashboard = () => {
     }
   };
 
+  // Reset filter function
+  const resetFilter = () => {
+    setStartDate("");
+    setEndDate("");
+    const data = JSON.parse(localStorage.getItem("Sales")) || [];
+    SetSales(data); // Reset to all sales
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 px-2 md:px-4">
       {/* Header Section */}
@@ -83,6 +91,12 @@ const Dashboard = () => {
             onClick={filterSalesByDate}
           >
             Filter
+          </button>
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded-lg"
+            onClick={resetFilter}
+          >
+            Reset
           </button>
         </div>
 
