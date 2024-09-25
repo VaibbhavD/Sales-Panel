@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSales } from "../../../Context/SalesContext";
 
 const InvoiceDetailsSection = () => {
   const { invoice, setInvoice } = useSales();
-
   const [InvoiceNo, SetInvoiceNo] = useState("");
 
-  // Function to handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInvoice({ ...invoice, [name]: value });
@@ -19,7 +17,6 @@ const InvoiceDetailsSection = () => {
     )}`;
     SetInvoiceNo(generatedInvoiceNumber);
 
-    // Update invoice state with the generated number
     setInvoice((prevInvoice) => ({
       ...prevInvoice,
       invoiceNumber: generatedInvoiceNumber,
@@ -27,43 +24,49 @@ const InvoiceDetailsSection = () => {
   }, [setInvoice]);
 
   return (
-    <div className="w-full mb-4">
+    <div className="lg:w-1/2 mb-4">
       {/* Flex container for Invoice Number and Invoice Date inputs */}
-      <div className="flex justify-end mb-4 mr-5">
+      <div className="flex flex-col md:flex-row justify-end mb-4 md:space-x-4">
         {/* Invoice Number input */}
-        <div className="mr-4">
-          <label className="block text-gray-700">Invoice Number</label>
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <label className="block text-gray-700 text-sm md:text-base">
+            Invoice Number
+          </label>
           <input
             type="text"
             name="invoiceNumber"
             placeholder="Invoice Number"
             value={InvoiceNo}
-            className="border p-2 rounded-lg mb-4"
+            className="w-full border p-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled
           />
         </div>
 
         {/* Invoice Date input */}
-        <div className="">
-          <label className="block text-gray-700">Invoice Date</label>
+        <div className="w-full md:w-1/2">
+          <label className="block text-gray-700 text-sm md:text-base">
+            Invoice Date
+          </label>
           <input
             type="date"
             name="invoiceDate"
             value={invoice.invoiceDate}
             onChange={handleInputChange}
-            className="border p-2 rounded-lg"
+            className="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
 
       {/* State of Supply input */}
-      <div className="grid justify-end mr-5">
-        <label className="block text-gray-700">State of Supply</label>
+      <div className="w-full">
+        <label className="block text-gray-700 text-sm md:text-base">
+          State of Supply
+        </label>
         <select
           name="stateOfSupply"
           value={invoice.stateOfSupply}
           onChange={handleInputChange}
-          className="border p-2 rounded-lg w-full "
+          className="w-full border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Select State</option>
           <option value="Kerala">Kerala</option>

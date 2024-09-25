@@ -58,13 +58,18 @@ const SalesFormPage = () => {
           className="text-lg text-gray-500 cursor-pointer hover:text-black"
           onClick={() => navigate(-1)}
         />
-        <h1 className="text-3xl font-bold text-left text-gray-800 mb-6">
-          Sales
-        </h1>
+        <p className="text-3xl font-bold text-left text-gray-800 mb-6">Sales</p>
 
-        <div className="flex justify-between mb-2">
-          <CustomerSection />
-          <InvoiceDetailsSection invoice={invoice} setInvoice={setInvoice} />
+        <div className="flex flex-col md:flex-row justify-between mb-2 space-y-4 md:space-y-0 md:space-x-4">
+          {/* Customer Section */}
+          <div className="w-full md:w-1/2">
+            <CustomerSection />
+          </div>
+
+          {/* Invoice Details Section */}
+          <div className="w-full  md:w-1/2">
+            <InvoiceDetailsSection invoice={invoice} setInvoice={setInvoice} />
+          </div>
         </div>
 
         <ItemsTable />

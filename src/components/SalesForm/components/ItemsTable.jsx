@@ -19,9 +19,6 @@ const ItemsTable = () => {
     return total;
   };
 
-  // Automatically update total amount when items array changes
-  // Re-run effect whenever items change
-
   const handleItemChange = (index, field, value) => {
     const updatedItems = [...invoice.items];
     updatedItems[index][field] = value;
@@ -49,13 +46,15 @@ const ItemsTable = () => {
       items: updatedItems,
     });
   };
+
   useEffect(() => {
     const newTotalAmount = calculateTotalAmount();
     setInvoice((prevInvoice) => ({
       ...prevInvoice,
       totalAmount: newTotalAmount,
     }));
-  }, [invoice.items, setInvoice, handleItemChange]);
+  }, [invoice.items]);
+
   const addItem = () => {
     const newItem = {
       name: "",
@@ -105,117 +104,124 @@ const ItemsTable = () => {
   );
 
   return (
-    <div className="w-full">
-      <table className="min-w-full bg-white border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border w-12">Sr. No</th>
-            <th className="py-2 px-4 border w-20">Item</th>
-            <th className="py-2 px-4 border w-16">Qty</th>
-            <th className="py-2 px-4 border w-24">Unit</th>
-            <th className="py-2 px-4 border w-32">Price</th>
-            <th className="py-2 px-4 border w-32">Item Total</th>
-            <th className="py-2 px-4 border w-48">Discount (%)</th>
-            <th className="py-2 px-4 border w-32">Tax</th>
-            <th className="py-2 px-4 border w-32">Final Amount</th>
-            <th className="border w-10"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {invoice.items.map((item, index) => (
-            <tr key={index}>
-              <td className="border text-center">{index + 1}</td>
-              <td className="border">
-                <input
-                  type="text"
-                  value={item.name}
-                  onChange={(e) =>
-                    handleItemChange(index, "name", e.target.value)
-                  }
-                  className="p-1 bg-transparent focus:outline-none"
-                />
-              </td>
-              <td className="border text-center">
-                <input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleItemChange(index, "quantity", e.target.value)
-                  }
-                  className="p-1 w-full bg-transparent text-center focus:outline-none"
-                  min={0}
-                />
-              </td>
-              <td className="border text-center">
-                <select
-                  value={item.unit}
-                  onChange={(e) =>
-                    handleItemChange(index, "unit", e.target.value)
-                  }
-                  className="p-1 w-full bg-transparent focus:outline-none"
-                >
-                  <option value="Bags">Bags</option>
-                  <option value="Packs">Packs</option>
-                </select>
-              </td>
-              <td className="border text-center">
-                <input
-                  type="number"
-                  value={item.price}
-                  onChange={(e) =>
-                    handleItemChange(index, "price", e.target.value)
-                  }
-                  className="p-1 w-full bg-transparent text-center focus:outline-none"
-                />
-              </td>
-              <td className="border text-center">{item.itemtotalAmount}</td>
-              <td className="border text-center">
-                <input
-                  type="number"
-                  value={item.discountPercent}
-                  onChange={(e) =>
-                    handleItemChange(index, "discountPercent", e.target.value)
-                  }
-                  className="p-1 w-full bg-transparent text-center focus:outline-none"
-                />
-              </td>
-              <td className="border text-center">
-                <select
-                  value={item.taxType}
-                  onChange={(e) =>
-                    handleItemChange(index, "taxType", e.target.value)
-                  }
-                  className="p-1 w-full bg-transparent focus:outline-none"
-                >
-                  {taxOptions.map((tax, i) => (
-                    <option key={i} value={tax}>
-                      {tax}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td className="border text-center">{item.FinalAmount}</td>
-              <td className="border text-center">
-                <button
-                  onClick={() => deleteItem(index)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <FaTrash />
-                </button>
-              </td>
+    <div className="flex flex-col h-full">
+      <div className="overflow-x-auto flex-grow">
+        <table className="w-full bg-white border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-200 text-xs sm:text-sm md:text-base">
+              <th className="border w-12">Sr. No</th>
+              <th className="py-2 px-2 sm:px-4 border w-20">Item</th>
+              <th className="py-2 px-2 sm:px-4 border w-16">Qty</th>
+              <th className="py-2 px-2 sm:px-4 border w-24">Unit</th>
+              <th className="py-2 px-2 sm:px-4 border w-32">Price</th>
+              <th className="py-2 px-2 sm:px-4 border w-32">Item Total</th>
+              <th className="py-2 px-2 sm:px-4 border w-48">Discount (%)</th>
+              <th className="py-2 px-2 sm:px-4 border w-32">Tax</th>
+              <th className="py-2 px-2 sm:px-4 border w-32">Final Amount</th>
+              <th className="border w-10"></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* Add Item Button */}
-      <div className="flex justify-between bg-gray-50 p-2">
-        <button onClick={addItem} className="text-blue-500 p-2 rounded">
+          </thead>
+          <tbody>
+            {invoice.items.map((item, index) => (
+              <tr key={index} className="text-xs sm:text-sm md:text-base">
+                <td className="border text-center">{index + 1}</td>
+                <td className="border">
+                  <input
+                    type="text"
+                    value={item.name}
+                    onChange={(e) =>
+                      handleItemChange(index, "name", e.target.value)
+                    }
+                    className="p-2 w-full min-w-[100px] bg-transparent focus:outline-none" // Adjusted
+                  />
+                </td>
+                <td className="border text-center">
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      handleItemChange(index, "quantity", e.target.value)
+                    }
+                    className="p-1 w-full min-w-[60px] bg-transparent text-center focus:outline-none" // Adjusted
+                    min={0}
+                  />
+                </td>
+                <td className="border text-center">
+                  <select
+                    value={item.unit}
+                    onChange={(e) =>
+                      handleItemChange(index, "unit", e.target.value)
+                    }
+                    className="p-1 w-full min-w-[80px] bg-transparent focus:outline-none" // Adjusted
+                  >
+                    <option value="Bags">Bags</option>
+                    <option value="Packs">Packs</option>
+                  </select>
+                </td>
+                <td className="border text-center">
+                  <input
+                    type="number"
+                    value={item.price}
+                    onChange={(e) =>
+                      handleItemChange(index, "price", e.target.value)
+                    }
+                    className="p-1 w-full min-w-[80px] bg-transparent text-center focus:outline-none" // Adjusted
+                  />
+                </td>
+                <td className="border text-center">{item.itemtotalAmount}</td>
+                <td className="border text-center">
+                  <input
+                    type="number"
+                    value={item.discountPercent}
+                    onChange={(e) =>
+                      handleItemChange(index, "discountPercent", e.target.value)
+                    }
+                    className="p-1 w-full min-w-[60px] bg-transparent text-center focus:outline-none" // Adjusted
+                  />
+                </td>
+                <td className="border text-center">
+                  <select
+                    value={item.taxType}
+                    onChange={(e) =>
+                      handleItemChange(index, "taxType", e.target.value)
+                    }
+                    className="p-1 w-full min-w-[80px] bg-transparent focus:outline-none" // Adjusted
+                  >
+                    {taxOptions.map((tax, i) => (
+                      <option key={i} value={tax}>
+                        {tax}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td className="border text-center">{item.FinalAmount}</td>
+                <td className="border text-center">
+                  <button
+                    onClick={() => deleteItem(index)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Fixed Add Item Button and Total Sales Section */}
+      <div className="bg-gray-50 p-2 flex justify-between items-center">
+        <button
+          onClick={addItem}
+          className="text-blue-500 p-2 rounded text-sm sm:text-base"
+        >
           + Add Item
         </button>
-        <div className="flex gap-5 justify-center items-center px-10">
-          <p>Total Sales (Qty): {totalSales}</p>
-          <p>Total Amount: {invoice.totalAmount}</p>{" "}
-          {/* Displaying total amount from invoice state */}
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-5 justify-center items-center">
+          <p className="text-xs sm:text-sm">Total Sales (Qty): {totalSales}</p>
+          <p className="text-xs sm:text-sm">
+            Total Amount: {invoice.totalAmount}
+          </p>
         </div>
       </div>
     </div>
