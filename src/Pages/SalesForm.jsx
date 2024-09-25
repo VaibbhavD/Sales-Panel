@@ -8,9 +8,17 @@ import { useSales } from "../Context/SalesContext";
 import Invoice from "../components/Invoice/Invoice";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import Loader from "../components/Loader/Loader";
 
 const SalesFormPage = () => {
-  const { invoice, setInvoice, isModalOpen, setisModalOpen } = useSales();
+  const {
+    invoice,
+    setInvoice,
+    isModalOpen,
+    setisModalOpen,
+    loader,
+    setloader,
+  } = useSales();
   const navigate = useNavigate();
 
   // Tax calculation helper function
@@ -85,6 +93,7 @@ const SalesFormPage = () => {
           <Invoice invoice={invoice} SetisModalOpen={setisModalOpen} />
         )}
       </div>
+      {loader && <Loader />}
     </div>
   );
 };

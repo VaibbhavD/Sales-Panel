@@ -3,9 +3,11 @@ import { FaFileExcel, FaPrint, FaPlus, FaArchive } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSales } from "../../Context/SalesContext";
 import Invoice from "../Invoice/Invoice";
+import Loader from "../Loader/Loader";
 
 const Dashboard = () => {
-  const { deleteSale, sales, isModalOpen, setIsModalOpen } = useSales();
+  const { deleteSale, sales, isModalOpen, setIsModalOpen, loader, setloader } =
+    useSales();
   const navigate = useNavigate();
   const [Sales, SetSales] = useState([]);
   const [selectedSale, setSelectedSale] = useState(null);
@@ -13,6 +15,10 @@ const Dashboard = () => {
   const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
+    setloader(true);
+    setTimeout(() => {
+      setloader(false);
+    }, 1000);
     const data = JSON.parse(localStorage.getItem("Sales")) || [];
     SetSales(data);
   }, [sales]);
@@ -39,12 +45,14 @@ const Dashboard = () => {
 
   // Date filtering function
   const filterSalesByDate = () => {
+    setloader(true);
     if (startDate && endDate) {
       const filteredSales = Sales.filter((sale) => {
         const saleDate = new Date(sale.invoiceDate);
         return saleDate >= new Date(startDate) && saleDate <= new Date(endDate);
       });
       SetSales(filteredSales);
+      setloader(false);
     }
   };
 
@@ -205,6 +213,7 @@ const Dashboard = () => {
 
       {/* Invoice Modal */}
       {isModalOpen && selectedSale && <Invoice invoice={selectedSale} />}
+      {loader && <Loader />}
     </div>
   );
 };

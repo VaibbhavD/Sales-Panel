@@ -8,6 +8,7 @@ export const useSales = () => {
 
 export const SalesProvider = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loader, setloader] = useState(false);
   const [sales, setSales] = useState(() => {
     const savedSales = localStorage.getItem("Sales");
     return savedSales ? JSON.parse(savedSales) : [];
@@ -96,6 +97,8 @@ export const SalesProvider = ({ children }) => {
         deleteSale,
         isModalOpen,
         setIsModalOpen,
+        loader,
+        setloader,
       }}
     >
       {children}
