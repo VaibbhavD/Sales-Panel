@@ -28,10 +28,12 @@ export const SalesProvider = ({ children }) => {
         price: null,
         discountPercent: 0,
         taxType: "None",
+        itemtotalAmount: null,
+        FinalAmout: null,
       },
     ],
     totalAmount: null,
-    receivedAmount: 0,
+    receivedAmount: null,
     paymentType: "Cash",
     description: "",
   });

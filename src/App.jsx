@@ -1,10 +1,10 @@
 // App.js
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./components/Dashboard/Dashboard";
-import SalesForm from "./components/SalesForm";
+import DashboardPage from "./Pages/Dashboard";
+import SalesFormPage from "./Pages/SalesForm";
 import { useSales } from "./Context/SalesContext";
 import { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -20,8 +20,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/add-sale" element={<SalesForm />} />
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/add-sale" element={<SalesFormPage />} />
       </Routes>
       <ToastContainer />
     </Router>

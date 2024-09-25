@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSales } from "../Context/SalesContext";
+import { useSales } from "../../../Context/SalesContext";
 
 const InvoiceDetailsSection = () => {
   const { invoice, setInvoice } = useSales();

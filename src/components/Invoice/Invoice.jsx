@@ -1,8 +1,6 @@
 import React from "react";
 import { useSales } from "../../Context/SalesContext";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import { toast } from "react-toastify";
+import PDFGenerator from "./PdfGenrater";
 
 const Invoice = ({ invoice }) => {
   const { setIsModalOpen } = useSales();
@@ -20,77 +18,6 @@ const Invoice = ({ invoice }) => {
     description,
   } = invoice;
 
-  const downloadPDF = () => {
-    const doc = new jsPDF();
-
-    // Add company logo
-    // const logoUrl =
-    //   "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg";
-
-    // Title
-    doc.setFontSize(18);
-    doc.setFont("helvetica", "bold");
-    doc.text("Invoice", 105, 20, null, null, "center");
-
-    // Invoice details
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Invoice Number: ${invoiceNumber}`, 20, 60);
-    doc.text(`Invoice Date: ${invoiceDate}`, 20, 70);
-    doc.text(`State of Supply: ${stateOfSupply}`, 20, 80);
-
-    // Customer and billing details
-    doc.setFontSize(12);
-    doc.text(`Customer: ${customer}`, 140, 60);
-    doc.text(`Phone: ${phone}`, 140, 70);
-    doc.text(`Billing Address: ${billingAddress}`, 140, 80);
-
-    // Table for items
-    const tableColumns = [
-      "Item",
-      "Quantity",
-      "Price",
-      "Tax",
-      "Discount",
-      "Total",
-    ];
-    const tableRows = items.map((item) => [
-      item.name,
-      item.quantity,
-      `$${item.price}`,
-      item.taxType || "N/A",
-      `${item.discountPercent || 0}%`,
-      `$${(item.quantity * item.price).toFixed(2)}`,
-    ]);
-
-    doc.autoTable({
-      startY: 90,
-      head: [tableColumns],
-      body: tableRows,
-      theme: "grid",
-      headStyles: { fillColor: [60, 141, 188] },
-      styles: { fontSize: 10, cellPadding: 3 },
-    });
-
-    const finalY = doc.autoTable.previous.finalY || 90;
-
-    // Total amounts
-    doc.setFontSize(12);
-    doc.text(`Total Amount: $${totalAmount}`, 20, finalY + 20);
-    doc.text(`Received Amount: $${receivedAmount}`, 20, finalY + 30);
-    doc.text(`Payment Type: ${paymentType}`, 20, finalY + 40);
-
-    // Add description if it exists
-    if (description) {
-      doc.setFontSize(10);
-      doc.text(`Description: ${description}`, 20, finalY + 50);
-    }
-
-    // Save the PDF
-    doc.save(`${invoiceNumber}.pdf`);
-    toast.success("Invoice Downloaded");
-  };
-
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white rounded shadow-lg">
       <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -100,7 +27,6 @@ const Invoice = ({ invoice }) => {
         {/* Modal container */}
         <div className="bg-white rounded-lg overflow-hidden shadow-lg z-10 w-11/12 md:w-2/3">
           {/* Invoice Content */}
-
           <div className="p-6">
             <h2 className="text-xl font-bold">Invoice</h2>
             <div className="grid grid-cols-2 gap-6 items-center">
@@ -160,7 +86,7 @@ const Invoice = ({ invoice }) => {
                         {item.discountPercent}%
                       </td>
                       <td className="px-4 py-4 text-right font-bold text-gray-800">
-                        ${item.quantity * item.price}
+                        ${item.FinalAmount}
                       </td>
                     </tr>
                   ))}
@@ -182,12 +108,8 @@ const Invoice = ({ invoice }) => {
 
             <div className="flex justify-end p-6 border-b">
               <div className="flex space-x-2">
-                <button
-                  onClick={downloadPDF}
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Download Invoice
-                </button>
+                {/* Pass invoice as a prop to PDFGenerator */}
+                <PDFGenerator invoice={invoice} />
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

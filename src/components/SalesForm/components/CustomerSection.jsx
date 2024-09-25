@@ -1,5 +1,5 @@
 import React from "react";
-import { useSales } from "../Context/SalesContext";
+import { useSales } from "../../../Context/SalesContext";
 
 const CustomerSection = () => {
   const { invoice, setInvoice } = useSales();

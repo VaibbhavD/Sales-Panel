@@ -1,5 +1,5 @@
 import React from "react";
-import { useSales } from "../Context/SalesContext";
+import { useSales } from "../../../Context/SalesContext";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
@@ -8,7 +8,11 @@ const ButtonsSection = () => {
   const navigate = useNavigate();
 
   const isFormValid =
-    invoice.customer && invoice.totalAmount != 0 && invoice.invoiceNumber;
+    invoice.customer &&
+    invoice.totalAmount != null &&
+    invoice.totalAmount != 0 &&
+    invoice.receivedAmount != null &&
+    invoice.invoiceNumber;
 
   console.log(invoice);
 
