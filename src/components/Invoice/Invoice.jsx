@@ -1,6 +1,7 @@
 import React from "react";
 import { useSales } from "../../Context/SalesContext";
 import PDFGenerator from "./PdfGenrater";
+import Logo from "../../components/Logo/Logo";
 
 const Invoice = ({ invoice }) => {
   const { setIsModalOpen } = useSales();
@@ -31,11 +32,7 @@ const Invoice = ({ invoice }) => {
             <h2 className="text-xl font-bold">Invoice</h2>
             <div className="grid grid-cols-2 gap-6 items-center">
               <div>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg"
-                  alt="company-logo"
-                  className="w-24 h-24"
-                />
+                <Logo />
               </div>
               <div className="text-right">
                 <p className="font-semibold text-gray-700">

@@ -39,7 +39,7 @@ const ItemsTable = () => {
     const taxAmount = calculateTax(totalBeforeTax, updatedItems[index].taxType);
 
     // Calculate FinalAmount (total after discount + tax)
-    updatedItems[index].FinalAmount = totalBeforeTax + taxAmount;
+    updatedItems[index].FinalAmount = Math.round(totalBeforeTax + taxAmount);
 
     setInvoice({
       ...invoice,

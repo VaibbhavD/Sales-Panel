@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaFileExcel, FaPrint, FaPlus, FaArchive } from "react-icons/fa";
+import { FaFileExcel, FaPrint, FaPlus, FaTrash } from "react-icons/fa"; // Added FaTrash
 import { useNavigate } from "react-router-dom";
 import { useSales } from "../../Context/SalesContext";
 import Invoice from "../Invoice/Invoice";
 import Loader from "../Loader/Loader";
+import SalesPDF from "./SalesPDF"; // Import the SalesPDF component
 
 const Dashboard = () => {
   const { deleteSale, sales, isModalOpen, setIsModalOpen, loader, setloader } =
@@ -43,16 +44,19 @@ const Dashboard = () => {
     setSelectedSale(null);
   };
 
+  // Delete sale function
+  const handleDelete = (saleId) => {
+    deleteSale(saleId); // Assuming this function updates the global context
+  };
+
   // Date filtering function
   const filterSalesByDate = () => {
-    setloader(true);
     if (startDate && endDate) {
       const filteredSales = Sales.filter((sale) => {
         const saleDate = new Date(sale.invoiceDate);
         return saleDate >= new Date(startDate) && saleDate <= new Date(endDate);
       });
       SetSales(filteredSales);
-      setloader(false);
     }
   };
 
@@ -73,9 +77,7 @@ const Dashboard = () => {
             This Month
           </h2>
           <div className="flex space-x-2 md:space-x-4 mt-4 md:mt-0">
-            <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg flex items-center">
-              <FaPrint className="mr-2" /> Print
-            </button>
+            <SalesPDF sales={Sales} /> {/* Add the PDF download button */}
           </div>
         </div>
 
@@ -196,9 +198,9 @@ const Dashboard = () => {
                         className="text-xl text-blue-500 cursor-pointer"
                         onClick={() => openModal(Sale)}
                       />
-                      <FaArchive
+                      <FaTrash
                         className="text-xl text-red-500 cursor-pointer"
-                        onClick={() => deleteSale(index)}
+                        onClick={() => handleDelete(index)} // Assuming each sale has a unique 'id'
                       />
                     </td>
                   </tr>
@@ -211,8 +213,10 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Invoice Modal */}
+      {/* Modal for Invoice */}
       {isModalOpen && selectedSale && <Invoice invoice={selectedSale} />}
+
+      {/* Loader Component */}
       {loader && <Loader />}
     </div>
   );
