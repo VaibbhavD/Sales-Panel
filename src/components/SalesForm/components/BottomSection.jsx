@@ -13,7 +13,7 @@ const BottomSection = () => {
   const dueAmount = Math.round(invoice.totalAmount - invoice.receivedAmount);
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between mt-4">
+    <div className="flex flex-col sm:flex-row justify-between mt-4 md:px-10">
       {/* Left Side - Payment Type and Description */}
       <div className="w-full sm:w-1/2 p-4">
         {/* Payment Type Dropdown */}

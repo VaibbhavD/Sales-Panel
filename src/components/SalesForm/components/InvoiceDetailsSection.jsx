@@ -24,7 +24,7 @@ const InvoiceDetailsSection = () => {
   }, [setInvoice]);
 
   return (
-    <div className="lg:w-1/2 mb-4">
+    <div className="lg:w-full mb-4 grid md:justify-end">
       {/* Flex container for Invoice Number and Invoice Date inputs */}
       <div className="flex flex-col md:flex-row justify-end mb-4 md:space-x-4">
         {/* Invoice Number input */}

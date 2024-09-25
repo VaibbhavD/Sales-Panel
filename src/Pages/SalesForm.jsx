@@ -60,7 +60,7 @@ const SalesFormPage = () => {
         />
         <p className="text-3xl font-bold text-left text-gray-800 mb-6">Sales</p>
 
-        <div className="flex flex-col md:flex-row justify-between mb-2 space-y-4 md:space-y-0 md:space-x-4">
+        <div className="flex flex-col md:flex-row justify-between mb-2 space-y-4 md:space-y-0 md:space-x-4 px-4">
           {/* Customer Section */}
           <div className="w-full md:w-1/2">
             <CustomerSection />
